@@ -8,13 +8,13 @@ using System.Collections;
  */
 public class LockUnlock :  TriggerComponent
 {
-	public void Lock(Id obj)
+	public void Lock(GameObject obj)
 	{
-		obj.gameObject.GetComponent<Locked>().Lock();
+		obj.GetComponent<Locked>().Lock();
 	}
-	public void UnLock(Id obj)
+	public void UnLock(GameObject obj)
 	{
-		obj.gameObject.GetComponent<Locked>().UnLock();
+		obj.GetComponent<Locked>().UnLock();
 	}
 	
 	override public string Name
