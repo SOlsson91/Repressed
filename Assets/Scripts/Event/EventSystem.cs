@@ -261,7 +261,7 @@ public class EventSystem : MonoBehaviour
 			m_Objects.Add(null);
 			if(m_Events[i].m_Object != null)
 			{
-				Debug.Log("Object with ID "+m_Events[i].m_Object+" Added");
+				Debug.Log("Object with ID "+m_Events[i].m_Object.name+" Added");
 				m_Objects[i] = m_Events[i].m_Object;
 			}
 			if(m_Objects[i] == null && m_Events[i].m_ChosenEffect != m_DifferentEffects.Delay)
