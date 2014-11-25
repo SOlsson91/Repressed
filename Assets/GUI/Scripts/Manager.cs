@@ -248,21 +248,25 @@ public class Manager : MonoBehaviour
 						TempEvent = eve;
 					}
 				}	
-				int TempInt2 = TempEvent.m_Objects[0].m_Id;
+
+
+				GameObject TempObject = TempEvent.m_Objects[0];
+				//int TempInt2 = TempEvent.m_Objects[0].m_Id;
+
 				//Debug.Log("Lyckades så här långt : " + TempInt2);
-				Id[] TempObjects = Resources.FindObjectsOfTypeAll<Id>();
+				//Id[] TempObjects = Resources.FindObjectsOfTypeAll<Id>();
 				//Id[] test2 = Resources.FindObjectsOfTypeAll<Id>().ToArray();
 				//List<Id> TempObjects = Resources.FindObjectsOfTypeAll<Id>().ToList();
 				//Debug.Log(test.Length + " " + test2.Length + " " + TempObjects.Count);
 				
-				GameObject TempObject = new GameObject();
-				for(int i = 0; i < TempObjects.Length; i++)
-				{
-					if(TempObjects[i].m_Id == TempInt2)
-					{
-						TempObject = TempObjects[i].gameObject;
-					}
-				}
+				//GameObject TempObject = new GameObject();
+				//for(int i = 0; i < TempObjects.Length; i++)
+				//{
+				//	if(TempObjects[i].m_Id == TempInt2)
+				//	{
+				//		TempObject = TempObjects[i].gameObject;
+				//	}
+				//}
 				TempObject.SetActive(true);
 				TempObject.GetComponent<PickUp>().Test();
 				AddInventoryItem(TempObject);

@@ -15,17 +15,17 @@ public class TriggerLights : TriggerComponent
 		get{ return "LightSwitch"; }
 	}
 
-	public void LightSwitch(Id obj)
+	public void LightSwitch(GameObject obj)
 	{
 		obj.GetComponent<Light> ().enabled = !obj.GetComponent<Light> ().enabled;
 	}
 
-	public void LightOn(Id obj)
+	public void LightOn(GameObject obj)
 	{
 		obj.GetComponent<Light> ().enabled = true;
 	}
 
-	public  void LightOff(Id obj)
+	public  void LightOff(GameObject obj)
 	{
 		obj.GetComponent<Light> ().enabled = false;
 	}

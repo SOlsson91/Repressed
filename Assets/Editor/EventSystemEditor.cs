@@ -105,17 +105,33 @@ public class EventSystemEditor : Editor
 		for(int i = 0; i < ES.m_Events.Count(); i++)
 		{
 			GUILayout.BeginHorizontal(GUILayout.Height(m_RowHeight));
-			if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.None)
-			{
-				ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". Effect: "+(i+1)+"    Object:  "+ES.m_Events[i].m_ObjectID,ES.m_Events[i].m_foldoutEffect);
+			if(ES.m_Events[i].m_Object == null){
+				if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.None)
+				{
+					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". Effect: "+(i+1)+"    Object: Not Chosen",ES.m_Events[i].m_foldoutEffect);
+				}
+				else if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.Delay)
+				{
+					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_DelayValue+" Second "+ES.m_Events[i].m_ChosenEffect.ToString(),ES.m_Events[i].m_foldoutEffect);
+				}
+				else
+				{
+					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_ChosenEffect.ToString()+"    Object: Not Chosen",ES.m_Events[i].m_foldoutEffect);
+				}
 			}
-			else if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.Delay)
-			{
-				ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_DelayValue+" Second "+ES.m_Events[i].m_ChosenEffect.ToString(),ES.m_Events[i].m_foldoutEffect);
-			}
-			else
-			{
-				ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_ChosenEffect.ToString()+"    Object:  "+ES.m_Events[i].m_ObjectID,ES.m_Events[i].m_foldoutEffect);
+			else {
+				if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.None)
+				{
+					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". Effect: "+(i+1)+"    Object:  "+ES.m_Events[i].m_Object.name,ES.m_Events[i].m_foldoutEffect);
+				}
+				else if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.Delay)
+				{
+					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_DelayValue+" Second "+ES.m_Events[i].m_ChosenEffect.ToString(),ES.m_Events[i].m_foldoutEffect);
+				}
+				else
+				{
+					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_ChosenEffect.ToString()+"    Object:  "+ES.m_Events[i].m_Object.name ,ES.m_Events[i].m_foldoutEffect);
+				}
 			}
 			GUI.skin = m_Skin;
 			if (GUILayout.Button("X",GUILayout.Height (m_CloseHeight), GUILayout.Width (20)))
@@ -138,12 +154,12 @@ public class EventSystemEditor : Editor
 				{
 					EditorGUILayout.LabelField ("Object ID", GUILayout.Height (m_TextHeight), GUILayout.Width (90));
 					GUILayout.Space(-20);					
-					ES.m_Events[i].m_ObjectID = EditorGUILayout.IntField(ES.m_Events[i].m_ObjectID,GUILayout.Height (m_BoxHeight),GUILayout.Width(70));
+					ES.m_Events[i].m_Object = (GameObject)EditorGUILayout.ObjectField(ES.m_Events[i].m_Object,typeof(GameObject),GUILayout.Height (m_BoxHeight),GUILayout.Width(180));
 				}
 				else
 				{
 					GUILayout.Space(145);
-					ES.m_Events[i].m_ObjectID = 0;
+					ES.m_Events[i].m_Object = null;
 				}
 				if(i != 0){
 					if (GUILayout.Button("Up", GUILayout.Height (m_BoxHeight), GUILayout.Width (50)))

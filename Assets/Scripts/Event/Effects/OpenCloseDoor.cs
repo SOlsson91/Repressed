@@ -10,19 +10,19 @@ using System.Collections;
 
 public class OpenCloseDoor :  TriggerComponent
 {
-	public void CloseDoor(Id obj)
+	public void CloseDoor(GameObject obj)
 	{
 		obj.GetComponent<RDoor>().CloseDoor();
 	}
-	public void OpenDoor(Id obj)
+	public void OpenDoor(GameObject obj)
 	{
 		obj.GetComponent<RDoor>().OpenDoor();
 	}
-	public void AngleDoor(Id obj, float angle)
+	public void AngleDoor(GameObject obj, float angle)
 	{
 		obj.GetComponent<RDoor>().ChangeDoorAngle(angle);
 	}
-	public void PlaySoundEffect(Id obj)
+	public void PlaySoundEffect(GameObject obj)
 	{
 		obj.GetComponent<SoundEffect>().PlaySoundEffect();
 	}

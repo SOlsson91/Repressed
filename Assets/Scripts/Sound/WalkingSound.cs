@@ -23,7 +23,7 @@ public class WalkingSound : TriggerComponent
 
 	#region PublicMemberVariables
 
-	[Tooltip("A higher value plays the sound slower")]
+	//[Tooltip("A higher value plays the sound slower")]
 	public float	m_WalkingSoundSpeed = 0.55f;
 	public FMODAsset m_Asset;
 

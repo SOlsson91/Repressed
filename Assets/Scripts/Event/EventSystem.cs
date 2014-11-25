@@ -31,10 +31,10 @@ public enum m_DifferentEffects
 public class EventSystem : MonoBehaviour
 {
 	#region SystemData
-	public int   	m_ID;
-	public bool     m_HasBeenActivated = false;
-	public float 	timer 	  		   = 0;
-	public List<Id>	m_Objects 		   = new List<Id> ();
+	public int   			m_ID;
+	public bool     		m_HasBeenActivated = false;
+	public float 			timer 	  		   = 0;
+	public List<GameObject>	m_Objects 		   = new List<GameObject> ();
 	#endregion
 
 	#region EditorData
@@ -256,22 +256,17 @@ public class EventSystem : MonoBehaviour
 
 	public void GetObjects()
 	{
-		List<Id> ids = Resources.FindObjectsOfTypeAll<Id>().ToList();
 		for(int i = 0; i < m_Events.Count();i++)
 		{
 			m_Objects.Add(null);
-			for(int j = 0; j < ids.Count(); j++)
+			if(m_Events[i].m_Object != null)
 			{
-				if(m_Events[i].m_ObjectID == ids[j].m_Id)
-				{
-					Debug.Log("Object with ID "+m_Events[i].m_ObjectID+" Added");
-					m_Objects[i] = ids[j];
-				}
-
+				Debug.Log("Object with ID "+m_Events[i].m_Object.name+" Added");
+				m_Objects[i] = m_Events[i].m_Object;
 			}
 			if(m_Objects[i] == null && m_Events[i].m_ChosenEffect != m_DifferentEffects.Delay)
 			{
-				Debug.Log("Item ID "+m_Events[i].m_ObjectID+" not found");
+				Debug.Log("Item ID "+m_Events[i].m_Object+" not found");
 			}
 		}
 	}
@@ -281,7 +276,7 @@ public class EventSystem : MonoBehaviour
 public class EventEffect
 {
 	#region EffectVariables
-	public int					  	  m_ObjectID 	 	= 0;	    
+	public GameObject				  m_Object;	    
 	public m_DifferentEffects	  	  m_ChosenEffect 	= m_DifferentEffects.None;
 	public bool  			  	 	  m_foldoutEffect	= false;  
 	public float 					  m_DelayFloatVal	= 0;  
