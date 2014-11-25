@@ -18,14 +18,13 @@ public class SuperTriggerEditor : Editor
 	private bool   		 m_FoldoutEvent    = false;
 	private bool   		 m_FoldoutAll 	   = false;
 	private bool		 m_SetUp 		   = false;
-	private string 		 m_Description     = "";
 	private GUISkin      m_Skin;
 
 	public override void OnInspectorGUI()
     {
 		SetUp ();
 
-		if(m_Description == "")
+		if(ST.m_Description == "")
 		{
 			m_FoldoutAll = NGUIEditorTools.DrawHeader("SuperTrigger",m_FoldoutAll);
 		}
@@ -41,7 +40,7 @@ public class SuperTriggerEditor : Editor
 			GUILayout.BeginHorizontal(GUILayout.Height(m_RowHeight));
 			GUILayout.Space(10);
 			EditorGUILayout.LabelField ("Description", GUILayout.Height (m_TextHeight), GUILayout.Width (103));	
-			m_Description = EditorGUILayout.TextField(m_Description, GUILayout.Height (m_BoxHeight),GUILayout.Width (260));
+			ST.m_Description = EditorGUILayout.TextField(ST.m_Description, GUILayout.Height (m_BoxHeight),GUILayout.Width (260));
 			GUILayout.EndHorizontal();
 
 			EditorGUI.indentLevel++;
