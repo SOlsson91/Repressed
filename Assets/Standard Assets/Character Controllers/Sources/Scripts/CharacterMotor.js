@@ -30,7 +30,7 @@ class CharacterMotorMovement {
 	
 	// How fast does the character change speeds?  Higher is faster.
 	var maxGroundAcceleration : float = 30.0;
-	var maxAirAcceleration : float = 20.0;
+	public var maxAirAcceleration : float = 20.0;
 
 	// The gravity for the character
 	var gravity : float = 10.0;
