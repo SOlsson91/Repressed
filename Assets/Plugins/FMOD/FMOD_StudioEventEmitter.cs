@@ -66,7 +66,10 @@ public class FMOD_StudioEventEmitter : MonoBehaviour
 
 	void Start() 
 	{
-		CacheEventInstance();
+		if (evt == null || !evt.isValid())
+		{
+			CacheEventInstance();
+		}
 		
 		cachedRigidBody = rigidbody;
 		

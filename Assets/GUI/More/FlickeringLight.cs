@@ -86,7 +86,7 @@ public class FlickeringLight : MonoBehaviour
 		else if (m_Random > m_Limit2 && m_Random <= m_Limit1)
 		{
 			m_Light.enabled = true;
-			m_Light.intensity = m_Intens / 2;
+			m_Light.intensity = m_Intens * 0.60f;
 		}
 		else
 		{

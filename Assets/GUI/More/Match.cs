@@ -4,14 +4,14 @@ using System.Collections;
 public class Match : MonoBehaviour 
 {
 	public float m_TimeMatch;
-	public int   m_Count = 2;
+	public int   m_Count = 3;
 
 	private bool  m_Lit = false;
-	//private float m_Timer;
+
 	// Use this for initialization
 	void Start () 
 	{
-		//m_Timer = 0;
+		m_Count = RasmusGameSave.m_MatchCount;
 	}
 
 	public bool Lit
@@ -19,10 +19,10 @@ public class Match : MonoBehaviour
 		set{m_Lit = value;}
 		get{return m_Lit;}
 	}
-	public int Count
+	public int GetCount()
 	{ 
-		set{m_Count = value;}
-		get{return m_Count;}
+		m_Count = RasmusGameSave.m_MatchCount;
+		return 	m_Count;
 	}
 	// Update is called once per frame
 	void Update () 
@@ -53,9 +53,10 @@ public class Match : MonoBehaviour
 
 	private void MatchFinished()
 	{
-		transform.parent.transform.parent.GetComponent<HandScript> ().PutArmDown ();
+		transform.parent.transform.parent.transform.parent.GetComponent<HandScript> ().PutArmDown ();
 		m_Lit = false;
-		m_Count--;
+		//m_Count--;
+		RasmusGameSave.m_MatchCount--;
 		//m_Timer = 0;
 	}
 
@@ -64,7 +65,8 @@ public class Match : MonoBehaviour
 		Debug.Log("Tändstickan avslutas");
 		GetComponent<Animation>().Stop();
 		m_Lit = false;
-		m_Count--;
+		RasmusGameSave.m_MatchCount--;
+		//m_Count--;
 		//m_Timer = 0;
 	}
 }

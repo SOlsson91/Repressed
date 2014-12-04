@@ -248,27 +248,23 @@ public class Manager : MonoBehaviour
 						TempEvent = eve;
 					}
 				}	
-
-
-				GameObject TempObject = TempEvent.m_Objects[0];
-				//int TempInt2 = TempEvent.m_Objects[0].m_Id;
-
+				int TempInt2 = TempEvent.m_Objects[0].m_Id;
 				//Debug.Log("Lyckades så här långt : " + TempInt2);
-				//Id[] TempObjects = Resources.FindObjectsOfTypeAll<Id>();
+				Id[] TempObjects = Resources.FindObjectsOfTypeAll<Id>();
 				//Id[] test2 = Resources.FindObjectsOfTypeAll<Id>().ToArray();
 				//List<Id> TempObjects = Resources.FindObjectsOfTypeAll<Id>().ToList();
 				//Debug.Log(test.Length + " " + test2.Length + " " + TempObjects.Count);
 				
-				//GameObject TempObject = new GameObject();
-				//for(int i = 0; i < TempObjects.Length; i++)
-				//{
-				//	if(TempObjects[i].m_Id == TempInt2)
-				//	{
-				//		TempObject = TempObjects[i].gameObject;
-				//	}
-				//}
+				GameObject TempObject = new GameObject();
+				for(int i = 0; i < TempObjects.Length; i++)
+				{
+					if(TempObjects[i].m_Id == TempInt2)
+					{
+						TempObject = TempObjects[i].gameObject;
+					}
+				}
 				TempObject.SetActive(true);
-				TempObject.GetComponent<PickUp>().Test();
+				//TempObject.GetComponent<PickUp>().Test();
 				AddInventoryItem(TempObject);
 				TempObject.SetActive(false);	
 			}
@@ -423,7 +419,7 @@ public class Manager : MonoBehaviour
 		bool tempBool = false;
 		for(int i = 0; i < m_Objects.Length; i++)
 		{
-			if(m_Objects[i].GetComponent<InventoryItem>().GetGameObject()[0].renderer.material.mainTexture == obj.renderer.material.mainTexture)
+			if(m_Objects[i].renderer.material.mainTexture == obj.GetComponent<ItemDiscription>().m_Texture)//obj.renderer.material.mainTexture)
 			{
 				tempBool = true;
 				m_StackPosition = i;
@@ -439,7 +435,7 @@ public class Manager : MonoBehaviour
 		Item.GetComponent<InventoryItem> ().SetReference (obj);
 		Item.renderer.enabled = true;
 		Item.transform.parent = this.transform;
-		Item.renderer.material.mainTexture = obj.renderer.material.mainTexture;
+		Item.renderer.material.mainTexture = obj.GetComponent<ItemDiscription>().m_Texture;//.renderer.material.mainTexture;
 		return Item;
 	}
 	private void AddStackItem(GameObject obj)

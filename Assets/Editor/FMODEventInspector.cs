@@ -14,6 +14,9 @@ public class FMODEventInspector : Editor
 	
 	Param[] parameters = new Param[0];
 	
+	bool is3D;
+	float minDistance, maxDistance;
+	
 	void Awake()
 	{
 		currentAsset=(FMODAsset)target;
@@ -28,6 +31,10 @@ public class FMODEventInspector : Editor
 		{
 			return;
 		}
+		
+		desc.is3D(out is3D);
+		desc.getMinimumDistance(out minDistance);
+		desc.getMaximumDistance(out maxDistance);
 		
 		desc.getParameterCount(out count);
 		parameters = new Param[count];
@@ -49,6 +56,12 @@ public class FMODEventInspector : Editor
 		//GUILayout.Label("Event: " + currentAsset.name);
 		GUILayout.Label("Path: " + currentAsset.path);
 		GUILayout.Label("GUID: " + currentAsset.id);
+		
+		GUILayout.Label(is3D ? "3D" : "2D");
+		if (is3D)
+		{
+			GUILayout.Label("Distance: (" + minDistance + " - " + maxDistance + ")");
+		}
 		
 		GUILayout.BeginHorizontal();
 		if (!isPlaying && GUILayout.Button("Play", new GUILayoutOption[0]))

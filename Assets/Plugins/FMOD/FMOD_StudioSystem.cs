@@ -172,7 +172,7 @@ public class FMOD_StudioSystem : MonoBehaviour
 		
 		if (instance == null)
 		{
-			FMOD.Studio.UnityUtil.Log("GetEvent FAILED: \"path\"");
+			FMOD.Studio.UnityUtil.Log("GetEvent FAILED: \"" + path + "\"");
 		}
 		
 		return instance;
@@ -212,6 +212,8 @@ public class FMOD_StudioSystem : MonoBehaviour
 		{
 			return;
 		}
+		
+		DontDestroyOnLoad(gameObject);
 		
 		FMOD.Studio.UnityUtil.Log("FMOD_StudioSystem: System_Create");
         ERRCHECK(FMOD.Studio.System.create(out system));

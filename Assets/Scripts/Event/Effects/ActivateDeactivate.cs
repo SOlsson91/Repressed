@@ -18,20 +18,20 @@ public class ActivateDeactivate :  TriggerComponent
 		m_IsActive = gameObject.activeSelf;
 	}
 	
-	public void DeActivate(GameObject obj)
+	public void DeActivate(Id obj)
 	{
 		m_IsActive = false;
 		//if(Camera.main.GetComponent<Raycasting>().InteractingWith == obj.gameObject)
 		//{
 		//	Camera.main.GetComponent<Raycasting> ().Release ();
 		//}
-		obj.SetActive (m_IsActive);
+		obj.gameObject.SetActive (m_IsActive);
 	}
 
-	public void Activate(GameObject obj)
+	public void Activate(Id obj)
 	{
 		m_IsActive = true;
-		obj.SetActive(m_IsActive);
+		obj.gameObject.SetActive(m_IsActive);
 	}
 
 	override public string Name

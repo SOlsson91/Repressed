@@ -12,6 +12,7 @@ public class AngelLookAtPlayer : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		m_Player = GameObject.FindGameObjectWithTag ("Player");
 		m_Ghost = new GameObject();
 		m_Ghost.transform.position = this.transform.position;
 	}

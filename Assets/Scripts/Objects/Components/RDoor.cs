@@ -77,9 +77,9 @@ public class RDoor : ObjectComponent
 	{
 		transform.parent.GetComponent<RDoorDad> ().OpenDoor ();
 	}
-	public void ChangeDoorAngle(float angle)
+	public void ChangeDoorAngle(float angle, bool lerp, float lerpspeed)
 	{
-		transform.parent.GetComponent<RDoorDad> ().ChangeDoorAngle (angle);
+		transform.parent.GetComponent<RDoorDad> ().ChangeDoorAngle (angle, lerp, lerpspeed);
 	}
 
 	private void ImprovedDoorCheck()

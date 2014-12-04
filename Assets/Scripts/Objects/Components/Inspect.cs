@@ -112,6 +112,7 @@ public class Inspect : ObjectComponent
             Camera.main.transform.parent.GetComponent<FirstPersonController>().UnLockPlayerMovement();
 
             m_IsInspecting = false;
+//            gameObject.GetComponent<PickUp>().DropInspect();
         }
     }
 

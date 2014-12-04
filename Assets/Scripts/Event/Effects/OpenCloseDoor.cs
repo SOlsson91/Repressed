@@ -10,21 +10,42 @@ using System.Collections;
 
 public class OpenCloseDoor :  TriggerComponent
 {
-	public void CloseDoor(GameObject obj)
+	public void CloseDoor(Id obj)
 	{
 		obj.GetComponent<RDoor>().CloseDoor();
 	}
-	public void OpenDoor(GameObject obj)
+	public void OpenDoor(Id obj)
 	{
 		obj.GetComponent<RDoor>().OpenDoor();
 	}
-	public void AngleDoor(GameObject obj, float angle)
+	public void AngleDoor(Id obj, float angle, float lerp)
 	{
-		obj.GetComponent<RDoor>().ChangeDoorAngle(angle);
+		bool tempB = false;
+		if(lerp >= 0.001)
+		{
+			tempB = true;
+		}
+		obj.GetComponent<RDoor>().ChangeDoorAngle(angle, tempB, lerp);
 	}
-	public void PlaySoundEffect(GameObject obj)
+	public void PlaySoundEffect(Id obj)
 	{
 		obj.GetComponent<SoundEffect>().PlaySoundEffect();
+	}
+	public void StopSoundEffect(Id obj)
+	{
+		obj.GetComponent<SoundEffect>().StopSoundEffect();
+	}
+	public void ChangeSoundEffect(Id obj, float par)
+	{
+		obj.GetComponent<SoundEffect>().ChangeSoundEffectParameter(par);
+	}
+	public void AddEntry(Id obj, int par)
+	{
+		CheckEventBetweenScenes.AddEntry(par);
+	}
+	public void AddRigidbody(Id obj)
+	{
+		obj.gameObject.AddComponent<Rigidbody>();
 	}
 
 	//public void CloseDoor(Id obj)

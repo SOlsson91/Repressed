@@ -33,7 +33,7 @@ public class SafeCode : ObjectComponent
 	{
 		if(m_GUITexture.enabled == true && m_Active == true)
 		{
-			if(Input.GetButtonDown("Fire2"))
+			if(Input.GetButtonDown("Fire2") || Input.GetKeyUp(KeyCode.Escape))
 			{
 				m_GUITexture.enabled = false;
 				Camera.main.transform.parent.GetComponent<FirstPersonController> ().UnLockPlayerMovement();

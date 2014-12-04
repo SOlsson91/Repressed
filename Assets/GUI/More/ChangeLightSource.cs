@@ -15,7 +15,10 @@ public class ChangeLightSource : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-				
+		if(renderer.material.mainTexture == m_FlashlightTexture)
+			GetComponentInChildren<TextMesh> ().text = "";
+		else
+			GetComponentInChildren<TextMesh> ().text = RasmusGameSave.m_MatchCount.ToString();
 	}
 
 	public void ChooseFlashLight()
@@ -26,6 +29,6 @@ public class ChangeLightSource : MonoBehaviour
 	public void ChooseMatches()
 	{
 		renderer.material.mainTexture = m_MatchesTexture;
-		GetComponentInChildren<TextMesh> ().text = Camera.main.GetComponent<HandScript> ().GetMatchesCount ().ToString ();
+		GetComponentInChildren<TextMesh> ().text = RasmusGameSave.m_MatchCount.ToString();
 	}
 }

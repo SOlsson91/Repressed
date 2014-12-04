@@ -7,6 +7,9 @@ public class IngameMenu : MonoBehaviour
 	public GameObject m_GUITextures;
 	public GUITexture m_Button1;
 	public GUITexture m_Button2;
+	public GUITexture m_Singlepage;
+	public GUITexture m_Book;
+	public GUITexture m_Code;
 
 	private GameObject m_Player;
 	private bool m_MenuActive = false;
@@ -20,23 +23,16 @@ public class IngameMenu : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Input.GetKeyDown(KeyCode.Escape))
+		if(Input.GetKeyDown(KeyCode.Escape) && !m_MenuActive && !m_Singlepage.enabled && !m_Book.enabled && !m_Code.enabled)
 		{
-			if(m_MenuActive)
-				EndMenu();
-			else
-				StartMenu();
+			StartMenu();
 		}
-		if (m_MenuActive) 
+		else if(Input.GetKeyDown(KeyCode.Escape) && m_MenuActive)
 		{
-			AnotherOnGUI();
-			//m_Player.GetComponent<FirstPersonController>().m_LockAndHideMouse = false;
+			EndMenu();
 		}
-		else
-		{
-			//m_Player.GetComponent<FirstPersonController>().m_LockAndHideMouse = true;
-		}
-
+		if(m_MenuActive)
+			OnTheGUI();
 	}
 
 	private void StartMenu()
@@ -45,9 +41,9 @@ public class IngameMenu : MonoBehaviour
 		//Time.timeScale = 0;
 		Camera.main.transform.parent.GetComponent<FirstPersonController> ().LockPlayerMovement();
 		Camera.main.GetComponent<FirstPersonCamera> ().LockCamera();
-		m_GUITextures.SetActive(true);
 		Screen.showCursor = true;
-		Screen.lockCursor = false;
+		//Screen.lockCursor = false;
+		m_GUITextures.SetActive(true);
 
 	}
 	private void EndMenu()
@@ -56,15 +52,13 @@ public class IngameMenu : MonoBehaviour
 		//Time.timeScale = 1;
 		Camera.main.transform.parent.GetComponent<FirstPersonController> ().UnLockPlayerMovement();
 		Camera.main.GetComponent<FirstPersonCamera> ().UnLockCamera();
-		//m_Player.GetComponent<FirstPersonController>().m_LockAndHideMouse = true;
+		m_Player.GetComponent<FirstPersonController>().m_LockAndHideMouse = true;
 		m_GUITextures.SetActive(false);
+		Screen.showCursor = false;
 	}
 
-	private void AnotherOnGUI() 
+	private void OnTheGUI() 
 	{
-		Screen.showCursor = true;
-		Screen.lockCursor = false;
-
 		if(m_Button1.HitTest(Input.mousePosition))
 			m_Button1.GetComponent<ChangeTextureHover>().ChangeToHoverTexture();
 		else
@@ -76,22 +70,13 @@ public class IngameMenu : MonoBehaviour
 
 		if(m_Button1.HitTest(Input.mousePosition) && Input.GetMouseButtonDown(0))
 		{
-			//Main menu
 			EndMenu();
-			Screen.showCursor = true;
-			Screen.lockCursor = false;
 			RasmusGameSave.SaveLevel();
 			Application.LoadLevel(m_Scene);
 		}
 		if(m_Button2.HitTest(Input.mousePosition) && Input.GetMouseButtonDown(0))
 		{
-			//Cont
-			Screen.showCursor = false;
-			Screen.lockCursor = true;
 			EndMenu();
-			Screen.showCursor = false;
-			Screen.lockCursor = true;
 		}
-
 	}
 }

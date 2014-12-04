@@ -69,11 +69,11 @@ public class Arrow : MonoBehaviour
 	{
 		if(m_Left)
 		{
-			m_PixelInsetX = -m_Parent.GetScreenRect().width/2;
+			m_PixelInsetX = -m_Parent.GetScreenRect().width/2 - m_Width;
 		}
 		else
 		{
-			m_PixelInsetX = m_Parent.GetScreenRect().width/2 - m_Width;
+			m_PixelInsetX = m_Parent.GetScreenRect().width/2 ;
 		}
 		m_PixelInsetY = -m_Height/2;
 		GetComponent<GUITexture> ().guiTexture.pixelInset = new Rect (m_PixelInsetX, m_PixelInsetY, m_Width, m_Height);

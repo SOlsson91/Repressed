@@ -2,6 +2,7 @@
 using System.Collections;
 
 	
+
 public class DairyPage : ObjectComponent  
 {
 	#region PublicMemberVariables
@@ -26,7 +27,7 @@ public class DairyPage : ObjectComponent
 	// Update is called once per frame
 	void Update () 
 	{
-		if(m_GUITexture.enabled == true && Input.GetButtonDown("Fire2") && m_Active == true)
+		if(m_GUITexture.enabled == true && (Input.GetButtonDown("Fire2") || Input.GetKeyUp(KeyCode.Escape)) && m_Active == true)
 		{
 			m_GUITexture.enabled = false;
 			Camera.main.transform.parent.GetComponent<FirstPersonController> ().UnLockPlayerMovement();

@@ -19,6 +19,9 @@ public class HelpID : MonoBehaviour
 	private List<string> StringList = new List<string>();
 	private bool m_Start = true;
 
+	private float m_FixCounter = 0;
+	private float m_FixCount = 1f;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -30,8 +33,12 @@ public class HelpID : MonoBehaviour
 	{
 		if(m_Start)
 		{
-			FindAllObjects();
-			m_Start = false;
+			m_FixCounter += Time.deltaTime;
+			if(m_FixCounter > m_FixCount)
+			{
+				FindAllObjects();
+				m_Start = false;
+			}
 		}
 		if(Input.GetKeyDown("f1"))
 		{
@@ -59,9 +66,16 @@ public class HelpID : MonoBehaviour
 		//GetAllGameObjectsWithID-component
 		foreach(GameObject obj in m_AllGameObjects)
 		{
-			if(obj.GetComponent<Id>())
+			//if(obj.GetComponent<Id>())
+			//{
+			//	ObjectList.Add(obj);
+			//}
+			foreach(Transform child in obj.transform)
 			{
-				ObjectList.Add(obj);
+				if(child.gameObject.GetComponent<Id>())
+				{
+					ObjectList.Add(child.gameObject);
+				}
 			}
 		}
 		m_GameObjectsWithID = ObjectList.ToArray();
@@ -298,7 +312,10 @@ public class HelpID : MonoBehaviour
 		for(int i = 0; i < m_GameObjectsWithEventID.Length; i++)
 		{
 			foreach(EventSystem ev in m_GameObjectsWithEventID[i].GetComponents<EventSystem>())
+			{
 				tempList.Add(ev);
+				ev.GetObjects();
+			}
 		}
 		tempEvents = tempList.ToArray();
 		QuickSort_Recursive3(tempEvents, 0, tempEvents.Length-1);

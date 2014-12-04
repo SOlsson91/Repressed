@@ -31,7 +31,7 @@ public class DoorSound : TriggerComponent
 		m_Parameter = "Action";
 		m_GameObject = this.gameObject;
 		CacheEventInstance();
-		//m_StartRotation = transform.parent.GetComponent<RDoorDad>().Diffrence; //this.GetComponentInParent<RDoorDad> ().Diffrence;
+		m_StartRotation = transform.parent.GetComponent<RDoorDad>().Diffrence; //this.GetComponentInParent<RDoorDad> ().Diffrence;
 		m_Action = 1;
 		m_Event.setParameterValue(m_Parameter, m_Action);
 		StartEvent ();
@@ -40,7 +40,7 @@ public class DoorSound : TriggerComponent
 	{
 		m_Locked = this.GetComponent<Locked> ().GetLocked ();
 		m_MouseMovement = Input.GetAxis ("Mouse Y");
-		//m_Rotation = transform.parent.GetComponent<RDoorDad> ().Diffrence; //.GetComponentInParent<RDoorDad> ().Diffrence;
+		m_Rotation = transform.parent.GetComponent<RDoorDad> ().Diffrence; //.GetComponentInParent<RDoorDad> ().Diffrence;
 		m_Rotation = Mathf.Abs(m_Rotation);
 		if(!m_Locked)
 		{

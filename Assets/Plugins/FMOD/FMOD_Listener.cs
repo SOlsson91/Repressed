@@ -20,6 +20,12 @@ public class FMOD_Listener : MonoBehaviour
 		Initialize();
 	}
 	
+	void OnDisable()
+	{
+		if (sListener == this)
+			sListener = null;
+	}
+	
 	void loadBank(string fileName)
 	{
 		string bankPath = getStreamingAsset(fileName);
@@ -175,10 +181,15 @@ public class FMOD_Listener : MonoBehaviour
 		FMOD.System sys = null;
 		ERRCHECK(FMOD_StudioSystem.instance.System.getLowLevelSystem(out sys));
 		
-		var dir = pluginPath;
+		if (Application.platform == RuntimePlatform.IPhonePlayer && pluginPaths.Length != 0)
+		{
+			FMOD.Studio.UnityUtil.LogError("DSP Plugins not currently supported on iOS, contact support@fmod.org for more information");
+			return;
+		}
+		
 		foreach (var name in pluginPaths)
 		{
-			var path = dir + "/" + GetPluginFileName(name);
+			var path = pluginPath + "/" + GetPluginFileName(name);
 			
 			FMOD.Studio.UnityUtil.Log("Loading plugin: " + path);
 			if (!System.IO.File.Exists(path))
@@ -216,7 +227,7 @@ public class FMOD_Listener : MonoBehaviour
 			}
 			else if (Application.platform == RuntimePlatform.IPhonePlayer)
 			{
-				FMOD.Studio.UnityUtil.LogError("Plugins not currently supported on iOS, contact support@fmod.org for more information");
+				FMOD.Studio.UnityUtil.LogError("DSP Plugins not currently supported on iOS, contact support@fmod.org for more information");
 				return "";
 			}
 			else if (Application.platform == RuntimePlatform.Android)

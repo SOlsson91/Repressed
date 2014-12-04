@@ -105,33 +105,17 @@ public class EventSystemEditor : Editor
 		for(int i = 0; i < ES.m_Events.Count(); i++)
 		{
 			GUILayout.BeginHorizontal(GUILayout.Height(m_RowHeight));
-			if(ES.m_Events[i].m_Object == null){
-				if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.None)
-				{
-					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". Effect: "+(i+1)+"    Object: Not Chosen",ES.m_Events[i].m_foldoutEffect);
-				}
-				else if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.Delay)
-				{
-					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_DelayValue+" Second "+ES.m_Events[i].m_ChosenEffect.ToString(),ES.m_Events[i].m_foldoutEffect);
-				}
-				else
-				{
-					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_ChosenEffect.ToString()+"    Object: Not Chosen",ES.m_Events[i].m_foldoutEffect);
-				}
+			if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.None)
+			{
+				ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". Effect: "+(i+1)+"    Object:  "+ES.m_Events[i].m_ObjectID,ES.m_Events[i].m_foldoutEffect);
 			}
-			else {
-				if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.None)
-				{
-					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". Effect: "+(i+1)+"    Object:  "+ES.m_Events[i].m_Object.name,ES.m_Events[i].m_foldoutEffect);
-				}
-				else if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.Delay)
-				{
-					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_DelayValue+" Second "+ES.m_Events[i].m_ChosenEffect.ToString(),ES.m_Events[i].m_foldoutEffect);
-				}
-				else
-				{
-					ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_ChosenEffect.ToString()+"    Object:  "+ES.m_Events[i].m_Object.name ,ES.m_Events[i].m_foldoutEffect);
-				}
+			else if(ES.m_Events[i].m_ChosenEffect == m_DifferentEffects.Delay)
+			{
+				ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_DelayValue+" Second "+ES.m_Events[i].m_ChosenEffect.ToString(),ES.m_Events[i].m_foldoutEffect);
+			}
+			else
+			{
+				ES.m_Events[i].m_foldoutEffect = NGUIEditorTools.DrawHeader((i+1)+". "+ES.m_Events[i].m_ChosenEffect.ToString()+"    Object:  "+ES.m_Events[i].m_ObjectID,ES.m_Events[i].m_foldoutEffect);
 			}
 			GUI.skin = m_Skin;
 			if (GUILayout.Button("X",GUILayout.Height (m_CloseHeight), GUILayout.Width (20)))
@@ -154,12 +138,12 @@ public class EventSystemEditor : Editor
 				{
 					EditorGUILayout.LabelField ("Object ID", GUILayout.Height (m_TextHeight), GUILayout.Width (90));
 					GUILayout.Space(-20);					
-					ES.m_Events[i].m_Object = (GameObject)EditorGUILayout.ObjectField(ES.m_Events[i].m_Object,typeof(GameObject),GUILayout.Height (m_BoxHeight),GUILayout.Width(180));
+					ES.m_Events[i].m_ObjectID = EditorGUILayout.IntField(ES.m_Events[i].m_ObjectID,GUILayout.Height (m_BoxHeight),GUILayout.Width(70));
 				}
 				else
 				{
 					GUILayout.Space(145);
-					ES.m_Events[i].m_Object = null;
+					ES.m_Events[i].m_ObjectID = 0;
 				}
 				if(i != 0){
 					if (GUILayout.Button("Up", GUILayout.Height (m_BoxHeight), GUILayout.Width (50)))
@@ -275,7 +259,7 @@ public class EventSystemEditor : Editor
 
 		else if(ES.m_Events[Effected].m_ChosenEffect == m_DifferentEffects.Door_Open)
 		{
-			EditorGUILayout.LabelField ("Opens the door to set angle", GUILayout.Height (m_TextHeight), GUILayout.Width (253));
+			EditorGUILayout.LabelField ("Opens the door", GUILayout.Height (m_TextHeight), GUILayout.Width (253));
 			
 			GUILayout.BeginHorizontal(GUILayout.Height(20));
 			GUILayout.Space(5);
@@ -289,11 +273,15 @@ public class EventSystemEditor : Editor
 		else if(ES.m_Events[Effected].m_ChosenEffect == m_DifferentEffects.Door_Angle)
 		{
 			EditorGUILayout.LabelField ("Opens the door to set angle", GUILayout.Height (m_TextHeight), GUILayout.Width (253));
-			
 			GUILayout.BeginHorizontal(GUILayout.Height(20));
 			GUILayout.Space(5);
 			EditorGUILayout.LabelField ("Angle", GUILayout.Height (m_TextHeight), GUILayout.Width (123));
 			ES.m_Events[Effected].m_OpenDoor = EditorGUILayout.FloatField(ES.m_Events[Effected].m_OpenDoor, GUILayout.Height (m_BoxHeight),GUILayout.Width (90));
+			GUILayout.EndHorizontal();
+			GUILayout.BeginHorizontal(GUILayout.Height(20));
+			GUILayout.Space(5);
+			EditorGUILayout.LabelField ("LerpSpeed", GUILayout.Height (m_TextHeight), GUILayout.Width (123));
+			ES.m_Events[Effected].m_LerpSpeed = EditorGUILayout.FloatField(ES.m_Events[Effected].m_LerpSpeed, GUILayout.Height (m_BoxHeight),GUILayout.Width (90));
 			GUILayout.EndHorizontal();
 		}
 		
@@ -309,7 +297,6 @@ public class EventSystemEditor : Editor
 		else if(ES.m_Events[Effected].m_ChosenEffect == m_DifferentEffects.Drawer_Open)
 		{
 			EditorGUILayout.LabelField ("Opens the drawer to set position", GUILayout.Height (m_TextHeight), GUILayout.Width (253));
-			
 			GUILayout.BeginHorizontal(GUILayout.Height(m_RowHeight));
 			GUILayout.Space(5);
 			EditorGUILayout.LabelField ("OpenPosition", GUILayout.Height (m_TextHeight), GUILayout.Width (123));
@@ -380,7 +367,7 @@ public class EventSystemEditor : Editor
 
 		// <===============================================================================>
 		
-		else if(ES.m_Events[Effected].m_ChosenEffect == m_DifferentEffects.Sound_Effect)
+		else if(ES.m_Events[Effected].m_ChosenEffect == m_DifferentEffects.Sound_Effect_Start)
 		{
 			//int capacity = EditorGUILayout.IntField("No. meshes",ES.ef_SoundEffect[Object].Capacity, GUILayout.Height (m_BoxHeight),GUILayout.Width (182));
 			//
@@ -402,6 +389,19 @@ public class EventSystemEditor : Editor
 
 		// <===============================================================================>
 		
+		else if(ES.m_Events[Effected].m_ChosenEffect == m_DifferentEffects.Sound_Effect_Change)
+		{
+			EditorGUILayout.LabelField ("Change the first parameter of the SoundEffect", GUILayout.Height (m_TextHeight), GUILayout.Width (203));
+
+			GUILayout.BeginHorizontal(GUILayout.Height(20));
+			GUILayout.Space(5);
+			EditorGUILayout.LabelField ("Value", GUILayout.Height (m_TextHeight), GUILayout.Width (123));
+			ES.m_Events[Effected].m_DelayValue = EditorGUILayout.FloatField(ES.m_Events[Effected].m_DelayValue, GUILayout.Height (m_BoxHeight),GUILayout.Width (90));
+			GUILayout.EndHorizontal();
+		}
+
+		// <===============================================================================>
+		
 		else if(ES.m_Events[Effected].m_ChosenEffect == m_DifferentEffects.Spawn)
 		{
 			
@@ -413,6 +413,20 @@ public class EventSystemEditor : Editor
 		else if(ES.m_Events[Effected].m_ChosenEffect == m_DifferentEffects.Unlock)
 		{
 			EditorGUILayout.LabelField ("Unlocks the object", GUILayout.Height (m_TextHeight), GUILayout.Width (203));
+		}
+
+		// <===============================================================================>
+
+		
+		else if(ES.m_Events[Effected].m_ChosenEffect == m_DifferentEffects.AddEventBetweenScenes)
+		{
+			EditorGUILayout.LabelField ("Add event to static class", GUILayout.Height (m_TextHeight), GUILayout.Width (250));
+			
+			GUILayout.BeginHorizontal(GUILayout.Height(20));
+			GUILayout.Space(5);
+			EditorGUILayout.LabelField ("Negative EventID", GUILayout.Height (m_TextHeight), GUILayout.Width (140));
+			ES.m_Events[Effected].m_NegativeID = EditorGUILayout.IntField(ES.m_Events[Effected].m_NegativeID, GUILayout.Height (m_BoxHeight),GUILayout.Width (90));
+			GUILayout.EndHorizontal();
 		}
 	}
 

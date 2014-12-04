@@ -27,5 +27,6 @@ public class Cursor : MonoBehaviour
 	public void ResetCursor()
 	{
 		m_Cursor.texture = m_HoverTextures[0];
+		GetComponentInChildren<GUIText> ().text = "";
 	}
 }

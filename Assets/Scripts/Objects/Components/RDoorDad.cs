@@ -8,10 +8,20 @@ public class RDoorDad : ObjectComponent
 	public int m_PositiveRotation;
 	public int m_NegativeeRotation;
 
+	private float m_LerpSpeed;
 	private float m_LastRotation = 0;
 	private float m_Difference 	 = 0;
 	private float m_StartAngle;
 	private float m_MaxMovement = 5;
+	private bool  m_Lerp = false;
+	private float m_Angle;
+	private float m_LerpDuration = 0;
+	private float m_LerpFloat;
+
+	public float Diffrence
+	{
+		get{return m_Difference;}
+	}
 
 	// Use this for initialization
 	void Start () 
@@ -22,7 +32,22 @@ public class RDoorDad : ObjectComponent
 	// Update is called once per frame
 	void Update () 
 	{
-
+		if(m_Lerp)
+		{
+			//Debug.Log("Kommer hit");
+			m_LerpDuration += Time.deltaTime;
+			transform.Rotate(0, Mathf.Lerp(m_LerpFloat, m_StartAngle - transform.rotation.eulerAngles.y + m_Angle, m_LerpSpeed * m_LerpDuration), 0);
+			float tempF = transform.rotation.eulerAngles.y - (m_StartAngle + m_Angle);
+			Debug.Log(Mathf.Abs(tempF));
+			if(Mathf.Abs(tempF) < 0.2)
+			{
+				transform.Rotate(0, m_StartAngle - transform.rotation.eulerAngles.y + m_Angle, 0);
+				m_Lerp = false;
+				m_LastRotation = m_Angle;
+				m_Difference   = m_Angle;
+				Debug.Log("Här");
+			}
+		}
 	}
 	
 	public void DadRotation1()
@@ -101,11 +126,22 @@ public class RDoorDad : ObjectComponent
         m_Difference   = 90;
 		transform.Rotate(0, m_StartAngle - transform.rotation.eulerAngles.y + 90, 0);
 	}
-	public void ChangeDoorAngle(float angle)
+	public void ChangeDoorAngle(float angle, bool lerp, float lerpspeed)
 	{
-		m_LastRotation = angle;
-		m_Difference   = angle;
-		transform.Rotate(0, m_StartAngle - transform.rotation.eulerAngles.y + angle, 0);
+		m_Angle = angle;
+		if(lerp)
+		{
+			m_LerpSpeed = lerpspeed;
+			m_Lerp = true;
+			m_LerpFloat = m_StartAngle - transform.rotation.eulerAngles.y + m_Difference;
+			//transform.Rotate(0, Mathf.Lerp(m_StartAngle - transform.rotation.eulerAngles.y, m_StartAngle - transform.rotation.eulerAngles.y + angle, m_LerpSpeed), 0);
+		}
+		else
+		{
+			m_LastRotation = angle;
+			m_Difference   = angle;
+			transform.Rotate(0, m_StartAngle - transform.rotation.eulerAngles.y + angle, 0);
+		}
 	}
 
 	private void CheckRotation()

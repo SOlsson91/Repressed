@@ -22,24 +22,26 @@ public class Select : MonoBehaviour
 	#endregion
 	
 	#region PrivateMemberVariables
-	private int     m_Max;
-	private Vector3 m_Vec;
-	private int     m_Selected;
+	private int      m_Max;
+	private Vector3  m_Vec;
+	private int      m_Selected;
 	private GameObject m_LastObject;
-	private float   m_Up;
-	private float   m_Up2;
+	private float    m_Up;
+	private float    m_Up2;
 	//private bool    m_Flash;
-	private Rect 	m_OriginalPosition;
-	private Rect 	m_IdlePosition;
-	private Rect 	m_OriginalPosition2;
-	private Rect 	m_IdlePosition2;
-	private bool    m_Init;
-	private bool    m_PressedOnce;
+	private Rect 	 m_OriginalPosition;
+	private Rect 	 m_IdlePosition;
+	private Rect 	 m_OriginalPosition2;
+	private Rect 	 m_IdlePosition2;
+	private bool     m_Init;
+	private bool     m_PressedOnce;
+	private TextMesh m_Text;
 	#endregion
 
 	// Use this for initialization
 	void Start () 
 	{
+		m_Text = GetComponentInChildren<TextMesh>();
 		m_PressedOnce = false;
 		//m_Flash = false;
 		m_Init = true;
@@ -84,7 +86,8 @@ public class Select : MonoBehaviour
 		}
 		else
 		{
-			m_Flashlight.GetComponent<GUITexture>().pixelInset = m_IdlePosition2;
+			//m_Flashlight.GetComponent<GUITexture>().pixelInset = m_IdlePosition2;
+			m_Flashlight.GetComponent<GUITexture>().color = new Color(1f, 1f, 1f, 0f);
 		}
 
 		if(m_Up > 0)
@@ -93,7 +96,9 @@ public class Select : MonoBehaviour
 		}
 		else
 		{
-			m_Inventory.GetComponent<GUITexture>().pixelInset = m_IdlePosition;
+			//m_Inventory.GetComponent<GUITexture>().pixelInset = m_IdlePosition;
+			m_Inventory.GetComponent<GUITexture>().color = new Color(1f, 1f, 1f, 0f);
+			ShowText(false);
 		}
 	}
 
@@ -104,14 +109,16 @@ public class Select : MonoBehaviour
 			if(Input.GetKeyDown("1"))
 			{
 				m_Up2 = 1f;
-				m_Flashlight.GetComponent<GUITexture>().pixelInset = m_OriginalPosition2;
+				m_Flashlight.GetComponent<GUITexture>().color = new Color(1f, 1f, 1f, 0.5f);
+				//m_Flashlight.GetComponent<GUITexture>().pixelInset = m_OriginalPosition2;
 				m_Flashlight.transform.parent.GetComponentInChildren<ChangeLightSource>().ChooseMatches();
 				//m_Flashlight.GetComponent<GUITexture>().texture = m_TextureFlashlight;
 			}
 			if(Input.GetKeyDown("2"))
 			{
 				m_Up2 = 1f;
-				m_Flashlight.GetComponent<GUITexture>().pixelInset = m_OriginalPosition2;
+				m_Flashlight.GetComponent<GUITexture>().color = new Color(1f, 1f, 1f, 0.5f);
+				//m_Flashlight.GetComponent<GUITexture>().pixelInset = m_OriginalPosition2;
 				m_Flashlight.transform.parent.GetComponentInChildren<ChangeLightSource>().ChooseFlashLight();
 				//m_Flashlight.GetComponent<GUITexture>().texture = m_TextureMatches;
 			}
@@ -226,7 +233,9 @@ public class Select : MonoBehaviour
 	public void SetInventoryFocus()
 	{
 		m_Up = 1f;
-		m_Inventory.GetComponent<GUITexture>().pixelInset = m_OriginalPosition;
+		ShowText(true);
+		m_Inventory.GetComponent<GUITexture>().color = new Color(1f, 1f, 1f, 0.5f);
+		//m_Inventory.GetComponent<GUITexture>().pixelInset = m_OriginalPosition;
 	}
 
 	//If selected change in Manager and not from here
@@ -247,5 +256,12 @@ public class Select : MonoBehaviour
 		{
 			transform.position = m_Manager.GetComponent<Manager> ().SelectedGameObject ().transform.position - offset;
 		}
+		//string tempString = m_Manager.GetComponent<Manager> ().SelectedGameObject ().GetComponent<InventoryItem>().GetGameObject()[0].GetComponent<ItemDiscription>().m_Discription;
+		//m_Text.text = tempString;
+	}
+
+	public void ShowText(bool b)
+	{
+		//m_Text.gameObject.SetActive(b);
 	}
 }

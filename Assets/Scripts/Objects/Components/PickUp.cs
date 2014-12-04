@@ -17,11 +17,12 @@ public class PickUp : ObjectComponent
 	public float 		m_ScaleTime			= 30f;
 	public float 		m_Sensitivity 		= 20.0f;
 	public float m_InspectionViewDistance   = 2.0f;
-	public float m_LerpSpeed			    = 1f;
+	public float m_LerpSpeed			    = 2.5f;
+	public int   m_RotateDirection;
 	#endregion
 
 	#region PrivateMemberVariables
-	private float 		m_DropPointMax = 2.0f;	//Här kan du ändra martin.. 
+	private float 		m_DropPointMax = 0.75f;	//Här kan du ändra Johan.. 
 	private float		m_DropDistance = 2.0f; 
 	private Transform   m_CameraTransform;
 	private int			m_DeActivateCounter;
@@ -40,13 +41,13 @@ public class PickUp : ObjectComponent
 		m_HoldingObject 	= false;
 	}
 
-	public void Test()
-	{
-		m_CameraTransform	= Camera.main.transform;
-		m_OriginalScale		= transform.lossyScale;
-		m_HoldObject		= m_CameraTransform.FindChild("ObjectHoldPosition");
-		m_HoldingObject 	= false;
-	}
+	//public void Test()
+	//{
+	//	m_CameraTransform	= Camera.main.transform;
+	//	m_OriginalScale		= transform.lossyScale;
+	//	m_HoldObject		= m_CameraTransform.FindChild("ObjectHoldPosition");
+	//	m_HoldingObject 	= false;
+	//}
 
 	public Vector3 OriginalScale
 	{
@@ -87,6 +88,7 @@ public class PickUp : ObjectComponent
 			{
 				transform.position = m_HoldObject.transform.position;
 				transform.rotation = m_HoldObject.transform.rotation;
+				transform.Rotate(0f, m_RotateDirection, 0f, Space.Self);
 			}
 		}
 	}
@@ -122,6 +124,7 @@ public class PickUp : ObjectComponent
 
 	public void ToggleInspecting()
 	{
+		Cast();
 		m_IsInspecting = !m_IsInspecting;
 		ToggleLock();
 	}
@@ -187,9 +190,12 @@ public class PickUp : ObjectComponent
 		{
 			m_DropDistance = Vector3.Distance(hit.point, m_CameraTransform.position);
 			m_DropDistance *= 0.88f;
+			m_InspectionViewDistance = Vector3.Distance(hit.point, m_CameraTransform.position);
+			m_InspectionViewDistance *= 0.88f;
 		}
 		else
 		{
+			m_InspectionViewDistance = m_DropPointMax;
 			m_DropDistance = m_DropPointMax;
 		}
 	}

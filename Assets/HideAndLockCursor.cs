@@ -8,9 +8,7 @@ public class HideAndLockCursor : MonoBehaviour {
 	{
 		Screen.showCursor = false;
 		Screen.lockCursor = true; 
-		Application.targetFrameRate = 30;
-		QualitySettings.vSyncCount = 2;
 	}
-	
+
 
 }
