@@ -19,6 +19,7 @@ public class RasmusRaycast : MonoBehaviour
 	private GameObject m_Manager;
 	public LayerMask m_LayerMask = (1 << 0) | (1 << 2) | (1 << 8) | (1 << 9) | (1 << 10) | (1 << 11);
 	public LayerMask m_LayerMaskHover =  (1 << 0) |(1 << 8) | (1 << 9) | (1 << 10);
+	public float m_OutlineWidth = 3;
 	#endregion
 	
 	#region PrivateMemberVariables
@@ -30,6 +31,7 @@ public class RasmusRaycast : MonoBehaviour
 	private GameObject m_HitObject;
 	private GameObject m_HitCollaborateObject;
 	private GameObject m_Cursor;
+	private GameObject m_LastHit;
 	#endregion
 	
 	public GameObject HoldObject
@@ -139,20 +141,20 @@ public class RasmusRaycast : MonoBehaviour
 						m_HoldObject.GetComponent<PickUp>().ToggleInspecting();
 					}
 				}
-				else if(Input.GetButtonDown(m_InputPocket))
-				{
-					if(m_HoldObject.GetComponent<PickUp>())
-					{
-						//if(m_HoldObject.GetComponent<PickUp>().GetInspecting() == false && m_HoldObject.GetComponent<ItemDiscription>() != null)
-						{
-							m_Manager.GetComponent<Manager>().AddInventoryItem(m_HoldObject);
-							m_Manager.GetComponent<Manager>().SetInventoryFocusOnSelect();
-							m_HoldObject.SetActive(false);
-							m_HoldingAnObject = false;
-							m_HoldObject = null;
-						}
-					}
-				}
+				//else if(Input.GetButtonDown(m_InputPocket))
+				//{
+				//	if(m_HoldObject.GetComponent<PickUp>())
+				//	{
+				//		//if(m_HoldObject.GetComponent<PickUp>().GetInspecting() == false && m_HoldObject.GetComponent<ItemDiscription>() != null)
+				//		{
+				//			m_Manager.GetComponent<Manager>().AddInventoryItem(m_HoldObject);
+				//			m_Manager.GetComponent<Manager>().SetInventoryFocusOnSelect();
+				//			m_HoldObject.SetActive(false);
+				//			m_HoldingAnObject = false;
+				//			m_HoldObject = null;
+				//		}
+				//	}
+				//}
 			}
 			else if(m_HoldObject.layer == 10)
 			{
@@ -186,6 +188,9 @@ public class RasmusRaycast : MonoBehaviour
 		Ray ray = new Ray(transform.position, transform.forward);
 		Debug.DrawRay(ray.origin,ray.direction * m_Distance, Color.yellow);
 
+		if(m_LastHit != null && m_LastHit.renderer != null)
+			m_LastHit.renderer.material.SetFloat("_Outline", 0f);
+
 		if(hold)
 		{
 			m_Cursor.GetComponent<Cursor>().SetCursor(3);
@@ -194,6 +199,10 @@ public class RasmusRaycast : MonoBehaviour
 		{
 			if(Physics.Raycast(ray, out hit, m_Distance, m_LayerMaskHover))
 			{
+				m_LastHit = hit.collider.gameObject;
+				if(m_LastHit.renderer != null)
+					m_LastHit.renderer.material.SetFloat("_Outline", 0.001f * m_OutlineWidth);
+				//m_LastHit.renderer.material.SetColor("_OutlineColor", Color.blue);
 				if(hit.collider.gameObject.GetComponent<HoverTrigger>())
 				{
 					hit.collider.gameObject.GetComponent<HoverTrigger>().HoverTriggerActivate();
@@ -235,6 +244,7 @@ public class RasmusRaycast : MonoBehaviour
 				m_Cursor.GetComponent<Cursor>().ResetCursor();
 			}
 		}
+
 
 	}
 

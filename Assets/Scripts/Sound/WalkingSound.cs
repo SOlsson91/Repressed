@@ -23,7 +23,7 @@ public class WalkingSound : TriggerComponent
 
 	#region PublicMemberVariables
 
-	//[Tooltip("A higher value plays the sound slower")]
+	[Tooltip("A higher value plays the sound slower")]
 	public float	m_WalkingSoundSpeed = 0.55f;
 	public FMODAsset m_Asset;
 
@@ -100,9 +100,10 @@ public class WalkingSound : TriggerComponent
 	{
 		RaycastHit hit;
 		Ray ray = new Ray (m_Player.transform.position, - transform.up);
-		//Debug.DrawRay (ray.origin, ray.direction * (m_Player.transform.lossyScale.y + 0.10f), Color.green);
 
-		if(Physics.Raycast(ray, out hit, (m_Player.transform.lossyScale.y + 0.25f)))
+		//Debug.Log ("Player scale " + m_Player.transform.lossyScale.y);
+		//Debug.DrawRay (ray.origin, ray.direction * (m_Player.transform.lossyScale.y + 0.85f), Color.red);
+		if(Physics.Raycast(ray, out hit, (m_Player.transform.lossyScale.y + 0.85f)))
 		{
 			if(hit.collider.gameObject.GetComponent<FloorMaterial>() != null)
 			{

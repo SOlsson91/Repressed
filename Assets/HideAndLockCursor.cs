@@ -9,6 +9,6 @@ public class HideAndLockCursor : MonoBehaviour {
 		Screen.showCursor = false;
 		Screen.lockCursor = true; 
 	}
-	
+
 
 }

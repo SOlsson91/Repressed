@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Callbacks;
 
 [InitializeOnLoad]
 public class FMODEditorExtension : MonoBehaviour
@@ -34,6 +35,31 @@ public class FMODEditorExtension : MonoBehaviour
 			!EditorApplication.isPaused)
 		{
 	        //LoadAllBanks();
+		}
+	}
+	
+	[PostProcessBuild]
+	public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
+	{		
+		if (target == BuildTarget.StandaloneOSXIntel 
+			|| target == BuildTarget.StandaloneOSXUniversal
+#if !(UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1)
+			|| target == BuildTarget.StandaloneOSXIntel64
+#endif
+			)
+		{		
+	        FMOD.Studio.UnityUtil.Log("Post build: copying FMOD DSP plugins to build directory");
+			var pluginLocation = Application.dataPath + "/Plugins";
+			
+			// Assume all .dylibs are FMOD Studio DSP plugins
+			string[] files = System.IO.Directory.GetFiles(pluginLocation, "*.dylib");
+			
+			foreach(var filePath in files)
+			{
+				var dest = pathToBuiltProject + "/Contents/Plugins/" + System.IO.Path.GetFileName(filePath);
+				FMOD.Studio.UnityUtil.Log("COPY: " + filePath + " TO " + dest);
+				System.IO.File.Copy(filePath, dest, true);
+			}
 		}
 	}
 	

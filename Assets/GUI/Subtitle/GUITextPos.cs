@@ -9,7 +9,8 @@ public class GUITextPos : MonoBehaviour
 	public bool m_Top;
 	public bool m_Left;
 	public bool m_Update;
-	public int  m_Target = 1;
+	public bool m_Middle;
+	//public int  m_Target = 1;
 
 	private int m_PixelInsetX;
 	private int m_PixelInsetY;
@@ -59,7 +60,7 @@ public class GUITextPos : MonoBehaviour
 			{
 				MoveToPosition ();
 			}
-			GetComponent<GUIText>().fontSize = (int)transform.parent.GetComponent<GUITexture>().GetScreenRect().width / m_Target;
+			//GetComponent<GUIText>().fontSize = (int)transform.parent.GetComponent<GUITexture>().GetScreenRect().width / m_Target;
 		}
 	}
 
@@ -102,22 +103,30 @@ public class GUITextPos : MonoBehaviour
 		m_XOffset = (int)transform.parent.GetComponent<GUITexture>().GetScreenRect().width/2;
 		m_YOffset = (int)transform.parent.GetComponent<GUITexture>().GetScreenRect().height/2;
 
-		if (m_Left) 
+		if(m_Middle)
 		{
-			m_PixelInsetX += -m_XOffset + m_InsetX;
-		} 
-		else 
-		{
-			m_PixelInsetX += m_XOffset - m_Width - m_InsetX;
-		}
-		if (m_Top) 
-		{
-			m_PixelInsetY += m_YOffset - m_InsetX;
+			m_PixelInsetX += -(int)GetComponent<GUIText>().GetScreenRect().width/2;
 		}
 		else
 		{
-			m_PixelInsetY += -m_YOffset + m_Height + m_InsetX; 
+			if (m_Left) 
+			{
+				m_PixelInsetX += -m_XOffset + m_InsetX;
+			} 
+			else 
+			{
+				m_PixelInsetX += m_XOffset - m_Width - m_InsetX;
+			}
 		}
+		if (m_Top) 
+		{
+			m_PixelInsetY += m_YOffset - m_InsetY;
+		}
+		else
+		{
+			m_PixelInsetY += -m_YOffset + m_Height + m_InsetY; 
+		}
+
 		
 		GetComponent<GUIText> ().pixelOffset = new Vector2 (m_PixelInsetX, m_PixelInsetY);
 	}

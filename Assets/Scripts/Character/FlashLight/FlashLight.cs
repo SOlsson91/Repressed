@@ -11,6 +11,7 @@ public class FlashLight : MonoBehaviour {
 	#region PrivateMemeberVariables
 	private bool m_CanUse = false;
 	private bool m_Toggle = false;
+	public GameObject m_Light;
 	#endregion
 
 	public bool ToggleLight
@@ -19,30 +20,37 @@ public class FlashLight : MonoBehaviour {
 		set{m_Toggle = value;}
 	}
 
+	void Awake()
+	{
+		m_Light = gameObject.GetComponent<Light>().gameObject;
+		m_Light.GetComponent<Light>().enabled = m_OnOff;
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
-		gameObject.GetComponentInChildren<Light>().enabled = m_OnOff;
+
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if(transform.parent.gameObject.activeInHierarchy != gameObject.GetComponentInChildren<Light>().enabled)
-		{
-			gameObject.GetComponentInChildren<Light>().enabled = transform.parent.gameObject.activeInHierarchy;
-		}
-		if(m_CanUse && Input.GetButtonDown(m_Input) && !m_Toggle)
-		{
-			m_Toggle = true;
-			Toggle();
-		}
+		//if(transform.parent.gameObject.activeInHierarchy != gameObject.GetComponentInChildren<Light>().enabled)
+		//{
+		//	gameObject.GetComponentInChildren<Light>().enabled = transform.parent.gameObject.activeInHierarchy;
+		//}
+		//if(m_CanUse && Input.GetButtonDown(m_Input) && !m_Toggle)
+		//{
+		//	m_Toggle = true;
+		//	Toggle();
+		//}
 	}
 
-	void Toggle()
+	public void Toggle()
 	{
+		m_Light.GetComponent<Light>().enabled = m_OnOff;
 		m_OnOff = !m_OnOff;
-		gameObject.GetComponentInChildren<Light>().enabled = m_OnOff;
+
 	}
 
 	public void Find()

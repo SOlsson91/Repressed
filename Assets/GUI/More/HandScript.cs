@@ -10,9 +10,14 @@ public class HandScript : MonoBehaviour
 	public bool m_Active;
 	public bool m_MatchSelected = true;
 	// Use this for initialization
+
 	void Start () 
 	{
 		m_Active = false;
+		m_Flashlight.transform.parent.gameObject.SetActive(false);
+		m_Flashlight.SetActive(false);
+		m_Match.transform.parent.gameObject.SetActive(false);
+		m_Match.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -29,25 +34,31 @@ public class HandScript : MonoBehaviour
 			{
 				if(!m_Active)
 				{
+					m_Flashlight.transform.parent.gameObject.SetActive(true);
 					m_Flashlight.SetActive(true);
+					m_Flashlight.GetComponent<FlashLight>().Toggle();
+					m_Match.transform.parent.gameObject.SetActive(false);
 					m_Match.SetActive(false);
 					PutArmUp();
 				}
 				else
 				{
+					m_Flashlight.GetComponent<FlashLight>().Toggle();
 					PutArmDown();
 				}
 			}
 			else
 			{
-				if(!m_Active && m_Match.GetComponent<Match>().Count > 0)
+				if(!m_Active && m_Match.GetComponent<Match>().GetCount() > 0)
 				{
+					m_Flashlight.transform.parent.gameObject.SetActive(false);
 					m_Flashlight.SetActive(false);
+					m_Match.transform.parent.gameObject.SetActive(true);
 					m_Match.SetActive(true);
 					PutArmUp();
 					m_Match.GetComponent<Match>().Lit = true;
 				}
-				else if(m_Match.GetComponent<Match>().Count > 0)
+				else if(m_Match.GetComponent<Match>().GetCount() > 0)
 				{
 					PutArmDown();
 					m_Match.GetComponent<Match>().EndMatch();
@@ -69,7 +80,9 @@ public class HandScript : MonoBehaviour
 		{
 			m_LeftArm.GetComponent<Animation>().Stop();
 			m_LeftArm.GetComponent<Animation>().animation["ArmAnimation"].time = 0;
+			m_Flashlight.transform.parent.gameObject.SetActive(false);
 			m_Flashlight.SetActive(false);
+			m_Match.transform.parent.gameObject.SetActive(false);
 			m_Match.SetActive(false);
 		}
 	}
@@ -92,6 +105,6 @@ public class HandScript : MonoBehaviour
 
 	public int GetMatchesCount()
 	{
-		return m_Match.GetComponent<Match> ().Count;
+		return m_Match.GetComponent<Match> ().GetCount();
 	}
 }

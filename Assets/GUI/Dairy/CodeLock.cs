@@ -68,7 +68,7 @@ public class CodeLock : ObjectComponent
 				}
 			}
 
-			if(m_GUI.GetComponent<GUITexture>().enabled == true && Input.GetButtonDown("Fire2") && m_Active == true)
+			if(m_GUI.GetComponent<GUITexture>().enabled == true && (Input.GetButtonDown("Fire2") || Input.GetKeyUp(KeyCode.Escape)) && m_Active == true)
 			{
 				Camera.main.transform.parent.GetComponent<FirstPersonController> ().UnLockPlayerMovement();
 				Camera.main.GetComponent<FirstPersonCamera> ().UnLockCamera();
