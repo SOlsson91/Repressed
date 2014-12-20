@@ -10,7 +10,7 @@ ModelImporter:
     4300000: Mod_Wall_1x25
     9500000: //RootNode
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -44,8 +44,8 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 0
     splitTangentsAcrossUV: 0
-    normalImportMode: 0
-    tangentImportMode: 0
+    normalImportMode: 1
+    tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
